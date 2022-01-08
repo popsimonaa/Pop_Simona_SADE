@@ -1,0 +1,26 @@
+﻿@model IEnumerable<Pop_Simona_SADE.Models.ExhibitionViewModels.OrderGroup>
+@{
+    ViewData["Title"] = "Ordered Paintings Statistics";
+}
+<h2>Ordered Paintings Statistics</h2>
+<table>
+    <tr>
+        <th>
+            Order Date
+        </th>
+        <th>
+            Ordered Paintings
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderDate)
+            </td>
+            <td>
+                @item.PaintingCount
+            </td>
+        </tr>
+    }
+</table>

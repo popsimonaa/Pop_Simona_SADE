@@ -1,0 +1,112 @@
+﻿@model Pop_Simona_SADE.Models.ExhibitionViewModels.CurrentIndexData
+@{
+    ViewData["Title"] = "Currents";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Current Name</th>
+            <th>Particularity</th>
+            <th>Paintings</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Currents)
+        {
+            string selectedRow = "";
+            if (item.ID == (int?)ViewData["CurrentID"])
+            {
+                selectedRow = "success";
+            }
+            <tr class="@selectedRow">
+                <td>
+                    @Html.DisplayFor(modelItem => item.CurrentName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Particularity)
+                </td>
+
+                <td>
+                    @{
+                        foreach (var painting in item.CurrentPaintings)
+                        {
+                            @painting.Painting.ID @: @painting.Painting.Title <br />
+                        }
+                    }
+                </td>
+                <td>
+                    <a asp-action="Index" asp-route-id="@item.ID">Select</a> |
+                    <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (Model.Paintings != null)
+{
+    <h3>Current Painting</h3>
+    <table class="table">
+        <tr>
+            <th></th>
+            <th>Title</th>
+            <th>Painter</th>
+            <th>Price</th>
+        </tr>
+        @foreach (var item in Model.Paintings)
+        {
+            string selectedRow = "";
+            if (item.ID == (int?)ViewData["PaintingID"])
+            {
+                selectedRow = "success";
+            }
+        <tr class="@selectedRow">
+            <td>
+                @Html.ActionLink("Select", "Index", new { paintingID = item.ID })
+            </td>
+            <td>
+                @item.Title
+            </td>
+            <td>
+                @item.Painter
+            </td>
+            <td>
+                @item.Price
+            </td>
+        </tr>
+        }
+     </table>
+ }
+
+        @if (Model.Orders != null)
+        {
+            <h3>
+                Customers that have ordered the Selected Painting
+            </h3>
+            <table class="table">
+                <tr>
+                    <th>Name</th>
+                    <th>Order Date</th>
+                </tr>
+                @foreach (var item in Model.Orders)
+                {
+                    <tr>
+                        <td>
+                            @item.Customer.Name
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OrderDate)
+                        </td>
+                    </tr>
+                }
+            </table>
+        }
